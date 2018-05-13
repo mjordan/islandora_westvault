@@ -1,0 +1,6 @@
+name = Islandora WestVault
+description = "Provides functionality specific to the WestVault digital preservation network."
+package = Islandora Tools
+version = 7.x-dev
+core = 7.x
+dependencies[] = islandora

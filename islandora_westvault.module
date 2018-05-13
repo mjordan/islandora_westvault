@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Provides functionality specific to the WestVault digital
+ * preservation network.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function islandora_westvault_form_islandora_bagit_admin_settings_alter(&$form, $form_state, $form_id) {
+  $form['islandora_westvault_add_baginfo_tags'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add WestVault tags.'),
+    '#default_value' => variable_get('islandora_westvault_add_baginfo_tags', 1),
+    '#description' => t('Check this option if you want to add bag-info.txt tags required by WestVault.'),
+  );
+}
+
+/**
+ * Implementation of hook drupal_alter().
+ *
+ * Minimum bag-info.txt metadata for WestVault: Source-Organization,
+ * Bag-Size, Bag-Count, Bagging-Date, Internal-Sender-Description,
+ * Internal-Sender-Identifier.
+ */
+function islandora_westvault_islandora_bagit_alter($bag, $object) {
+  if (variable_get('islandora_westvault_add_baginfo_tags', 1)) {
+    if (!$bag->hasBagInfoData('Bagging-Date')) {
+      $bag->setBagInfoData('Bagging-Date', date("Y-m-d"));
+    }
+    // In megabytes.
+    $bag_size = islandora_westvault_generate_bag_size($bag);
+    $bag->setBagInfoData('Bag-Size', $bag_size . ' MB');
+    $bag->setBagInfoData('Internal-Sender-Identifier', $object->id);
+    $description = islandora_westvault_get_description($object);
+    $bag->setBagInfoData('Internal-Sender-Description', $description);
+    $bag->update();
+  }
+}
+
+/**
+ * Generates the Bag's size.
+ *
+ * @param object $bag
+ *   The bag object.
+ *
+ * @return string
+ *   The cumulative size of all the files in /data.
+ */
+function islandora_westvault_generate_bag_size($bag) {
+  $files = $bag->getBagContents();
+  $bag_size = 0;
+  foreach ($files as $path) {
+    $file_size = filesize($path);
+    $bag_size = $bag_size + $file_size;
+  }
+  // We want megabytes.
+  return $bag_size / 1000;
+}
+
+/**
+ * Gets all dc:description values and concatentates them.
+ *
+ * @param object $object
+ *   The Isladnora object.
+ *
+ * @return string
+ *   The values of dc:description.
+ */
+function islandora_westvault_get_description($object) {
+  $dc_xml = $object['DC']->content;
+  $dom = new DOMDocument();
+  $dom->loadXML($dc_xml);
+  $dc_elements = $dom->getElementsByTagNameNS('http://purl.org/dc/elements/1.1/', 'description');
+  $description_text = '';
+  foreach ($dc_elements as $dc) {
+    $description_text .= $dc->nodeValue;
+  }
+  return $description_text;
+}
