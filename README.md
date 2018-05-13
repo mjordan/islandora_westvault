@@ -1,18 +1,18 @@
 # Islandora WestVault
 
-Islandora module that provides functionality specific to the WestVault digital preservation network.
+Islandora module that provides functionality specific to the [WestVault digital preservation network](https://coppul.ca/westvault).
 
 ## Introduction
 
 Currently the only functionality this module provides is to add the following tags to Bags created for deposit into WestVault:
 
-* Bag-Size
+* Bag-Size: The size, in megabytes, of all files in the Bag's `data` directory.
 * Bag-Count
 * Bagging-Date
-* Internal-Sender-Description: [Optional] Human readable description of the contents of the bag.
-* Internal-Sender-Identifier: [Optional] Internal or alternate identifier used at the senders location.
+* Internal-Sender-Description: The value for this tag is taken from the object's Dublin Core `description` values.
+* Internal-Sender-Identifier: The value for this tag is the object's PID.
 
-Source-Organization is also required by WestVault, and 
+Source-Organization is also required by WestVault, but is not added by this module; rather, it is added by the main Islandora BagIt module if the origanization's name is added to the "Organization transferring the content" field, as illustrated below.
 
 ## Requirements
 
@@ -26,7 +26,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Configuration options are available at Administration > Islandora > Islandora Utility Modules > Islandora BagIt. Check the "Add WestVault tags" option at the bottom of the form. You should also make sure that you enter your institution's name in the "Organization transferring the content" field at the top of the "Bag metadata" group form elements:
 
-![BagIt configuration]('images/islandora_westvault.png')
+![BagIt configuration](images/islandora_westvault.png)
 
 ## Maintainer
 
