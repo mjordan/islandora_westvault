@@ -9,7 +9,7 @@ Currently the only functionality this module provides is to add the following ta
 * `Bag-Size`: The size, in megabytes, of all files in the Bag's `data` directory.
 * `Bag-Count`
 * `Bagging-Date`
-* `Internal-Sender-Descriptioni`: The value for this tag is taken from the object's Dublin Core `description` values.
+* `Internal-Sender-Description`: The value for this tag is taken from the object's Dublin Core `description` values.
 * `Internal-Sender-Identifier`: The value for this tag is the object's PID.
 
 `Source-Organization` is also required by WestVault, but is not added by this module; rather, it is added by the main Islandora BagIt module if the origanization's name is added to the "Organization transferring the content" field, as illustrated below.

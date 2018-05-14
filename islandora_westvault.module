@@ -30,7 +30,6 @@ function islandora_westvault_islandora_bagit_alter($bag, $object) {
     if (!$bag->hasBagInfoData('Bagging-Date')) {
       $bag->setBagInfoData('Bagging-Date', date("Y-m-d"));
     }
-    // In megabytes.
     $bag_size = islandora_westvault_generate_bag_size($bag);
     $bag->setBagInfoData('Bag-Size', $bag_size . ' MB');
     $bag->setBagInfoData('Internal-Sender-Identifier', $object->id);
@@ -47,7 +46,7 @@ function islandora_westvault_islandora_bagit_alter($bag, $object) {
  *   The bag object.
  *
  * @return string
- *   The cumulative size of all the files in /data.
+ *   The cumulative size of all the files in /data, in megabytes.
  */
 function islandora_westvault_generate_bag_size($bag) {
   $files = $bag->getBagContents();
@@ -61,13 +60,13 @@ function islandora_westvault_generate_bag_size($bag) {
 }
 
 /**
- * Gets all dc:description values and concatentates them.
+ * Gets all dc:description values for the object and concatentates them.
  *
  * @param object $object
  *   The Isladnora object.
  *
  * @return string
- *   The values of dc:description.
+ *   The values of dc:description concatenated together.
  */
 function islandora_westvault_get_description($object) {
   $dc_xml = $object['DC']->content;
@@ -76,7 +75,7 @@ function islandora_westvault_get_description($object) {
   $dc_elements = $dom->getElementsByTagNameNS('http://purl.org/dc/elements/1.1/', 'description');
   $description_text = '';
   foreach ($dc_elements as $dc) {
-    $description_text .= $dc->nodeValue;
+    $description_text .= ' ' . $dc->nodeValue;
   }
-  return $description_text;
+  return trim($description_text);
 }
