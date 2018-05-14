@@ -56,8 +56,8 @@ function islandora_westvault_generate_bag_size($bag) {
     $file_size = filesize($path);
     $bag_size = $bag_size + $file_size;
   }
-  // We want megabytes.
-  return $bag_size / 1000;
+  // filesize() returns bytes, we want megabytes.
+  return $bag_size / 1000000;
 }
 
 /**
