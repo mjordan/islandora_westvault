@@ -22,7 +22,7 @@ function islandora_westvault_form_islandora_bagit_admin_settings_alter(&$form, $
  * Implementation of hook drupal_alter().
  *
  * Minimum bag-info.txt metadata for WestVault: Source-Organization,
- * Bag-Size, Bag-Count, Bagging-Date, Internal-Sender-Description,
+ * Bag-Size, Bagging-Date, Internal-Sender-Description,
  * Internal-Sender-Identifier.
  */
 function islandora_westvault_islandora_bagit_alter($bag, $object) {
