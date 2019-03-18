@@ -1,4 +1,4 @@
-name = Islandora WestVault
+name = Islandora WestVault Extras
 description = "Provides functionality specific to the WestVault digital preservation network."
 package = Islandora Tools
 version = 7.x-dev

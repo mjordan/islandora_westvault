@@ -8,9 +8,9 @@
 /**
  * Implements hook_uninstall().
  */
-function islandora_westvault_uninstall() {
+function islandora_westvault_extras_uninstall() {
   $variables = array(
-    'islandora_westvault_add_baginfo_tags',
+    'islandora_westvault_extras_add_baginfo_tags',
   );
   array_walk($variables, 'variable_del');
 }
